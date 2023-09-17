@@ -55,9 +55,16 @@
                     Assembly = assembly,
                     ResourceNames = assembly.GetManifestResourceNames().Where(filter).ToArray()
                 })
-                .SelectMany(x => x.ResourceNames.Select(resourceName => SqlScript.FromStream(resourceName, x.Assembly.GetManifestResourceStream(resourceName), encoding, sqlScriptOptions)))
+                .SelectMany(x => x.ResourceNames.Select(resourceName => SqlScript.FromStream(ScriptNameFromResourceName(resourceName), x.Assembly.GetManifestResourceStream(resourceName), encoding, sqlScriptOptions)))
                 .OrderBy(sqlScript => sqlScript.Name)
                 .ToList();
         }
+
+        /// <summary>
+        /// Set to use custom naming of scripts.
+		/// Default is to use resource name as script name.
+        /// </summary>
+        /// <returns></returns>
+        public static Func<string, string> ScriptNameFromResourceName = resourceName => resourceName;
     }
 }

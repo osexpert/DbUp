@@ -881,4 +881,18 @@ public static class StandardExtensions
     {
         return WithScripts(builder, new EmbeddedScriptsProvider(assemblies, filter, encoding, sqlScriptOptions));
     }
+
+    /// <summary>
+    /// Set a script name provider, where you can provide script named from resource names. Default is to use resource name as script name.
+    /// </summary>
+    /// <param name="builder">The builder.</param>
+    /// <param name="scriptNameFromResourceName">The script name provider.</param>
+    /// <returns>
+    /// The same builder
+    /// </returns>
+    public static UpgradeEngineBuilder WithScriptNameFromResourceName(this UpgradeEngineBuilder builder, Func<string, string> scriptNameFromResourceName)
+    {
+        EmbeddedScriptProvider.ScriptNameFromResourceName = scriptNameFromResourceName;
+        return builder;
+    }
 }
